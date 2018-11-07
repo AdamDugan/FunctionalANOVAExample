@@ -37,19 +37,30 @@ figure = ggplot() +
   ylab("Y") +
   ggtitle("The 'True' Functions and Simulated Data Points")
 
-## Save the plot
-ggsave(filename = "simulateddata.pdf",
-       plot = figure,
-       device = "pdf",
-       path = "figs/",
-       dpi = "retina",
-       units = "cm",
-       width = 8,
-       height = 6,
-       scale = 3)
-
-## Save the plot as an R object
-save(figure, file = "figs/simulateddata.rda")
+# ## Save the plot as a PDF
+# ggsave(filename = "simulateddata.pdf",
+#        plot = figure,
+#        device = "pdf",
+#        path = "figs/",
+#        dpi = "retina",
+#        units = "cm",
+#        width = 8,
+#        height = 6,
+#        scale = 3)
+# 
+# ## Save the plot as a PNG
+# ggsave(filename = "simulateddata.png",
+#        plot = figure,
+#        device = "png",
+#        path = "figs/",
+#        dpi = "retina",
+#        units = "cm",
+#        width = 8,
+#        height = 6,
+#        scale = 3)
+# 
+# ## Save the plot as an R object
+# save(figure, file = "figs/simulateddata.rda")
 
 
 

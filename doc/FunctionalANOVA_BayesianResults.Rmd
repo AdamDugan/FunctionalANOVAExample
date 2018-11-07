@@ -25,7 +25,11 @@ rm(p, pkgs)
 
 ```{r, echo=FALSE}
 
-include_graphics(path = "figs/simulateddata.pdf")
+## Run the exploratory script
+source("source/exploratory.r")
+
+## Return the figure
+figure
 
 ```
 
