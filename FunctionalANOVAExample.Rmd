@@ -54,10 +54,14 @@ y_{i}(t) &= \mu(t) + \beta_{gp(i)}(t) + \epsilon_{i}(t) \\
 \beta_{3}(t) &= -\beta_{1}(t) - \beta_{2}(t)
 \end{aligned}
 $$
-where $t = m/200$ for $m=0,\dots,200$ and the error functions, $\epsilon_{i}(t)$, were simulated from a mean-zero Gaussian process with coveriance $V(s,t) = \sigma_{1} 0.15^{|s-t|} + \sigma_{2} \delta_{st}$ where $\delta_{st}=1$ if $s=t$ and $0$ otherwise. For the simulations, N=`r N` curves were simulated for each of the 3 groups, $\sigma_{1} = 0.15$, and $\sigma_{2} = 0.05$. So, we have `r nrow(dat)` observations from `r N*g` curves with `r N` curves per group.
+where $t = m/200$ for $m=0,\dots,200$ and the error functions, $\epsilon_{i}(t)$, were simulated from a mean-zero Gaussian process with coveriance $V(s,t) = \sigma_{1} 0.15^{|s-t|} + \sigma_{2} \delta_{st}$ where $\delta_{st}=1$ if $s=t$ and $0$ otherwise. For the simulations, N=10 curves were simulated for each of the 3 groups, $\sigma_{1} = 0.15$, and $\sigma_{2} = 0.05$. So, we have `r 3*10*201` observations from `r 10*3` curves with 10 curves per group.
 
 
 
+
+
+<br>
+<br>
 
 ```{r}
 
@@ -87,7 +91,9 @@ mean_3 = mu.t + b3.t
 ## Create the "true" dataset
 true.data = data.frame(Y_True = c(mean_1, mean_2, mean_3),
                        Time = rep(t, 3),
-                       Group = as.factor(c(rep(1, length(t)), rep(2, length(t)), rep(3, length(t)))) )
+                       Group = as.factor(c(rep(1, length(t)),
+                                           rep(2, length(t)),
+                                           rep(3, length(t)))) )
 
 ```
 
@@ -98,6 +104,7 @@ true.data = data.frame(Y_True = c(mean_1, mean_2, mean_3),
 <br>
 <br>
 
+Note that the X variable, Time, was centered and scaled.
 ```{r}
 
 #############################
@@ -105,10 +112,15 @@ true.data = data.frame(Y_True = c(mean_1, mean_2, mean_3),
 #############################
 
 ## Create a stacked dataframe for the simulated data
-dat = data.frame(Y_True = c(rep(mean_1, N), rep(mean_2, N), rep(mean_3, N)),
+dat = data.frame(Y_True = c(rep(mean_1, N),
+                            rep(mean_2, N),
+                            rep(mean_3, N)),
                  Time = rep(t, N*g),
-                 Group = as.factor( c(rep(1, N*length(t)), rep(2, N*length(t)), rep(3, N*length(t))) ),
-                 ID = factor( rep(1:(N*g), length(t))[ order(rep(1:(N*g), length(t))) ] ) )
+                 Group = as.factor( c(rep(1, N*length(t)),
+                                      rep(2, N*length(t)),
+                                      rep(3, N*length(t))) ),
+                 ID = factor( rep(1:(N*g),
+                                  length(t))[ order(rep(1:(N*g), length(t))) ] ) )
 rm(mean_1, mean_2, mean_3)
 
 ## Define values
@@ -118,7 +130,8 @@ sigma_2 = 0.05    ## 0.05 for all simulations
 ## Calculate the covariance matrix
 grid = expand.grid(t, t)
 cov.matrix = apply(X = grid, MARGIN = 1,
-                   FUN = function(x){ ((sigma_1^2)*0.15^(abs(x[1] - x[2]) )) + (sigma_2^2)*as.numeric(x[1] == x[2]) } )
+                   FUN = function(x){ ((sigma_1^2)*0.15^(abs(x[1] - x[2]) )) +
+                       (sigma_2^2)*as.numeric(x[1] == x[2]) } )
 cov.matrix = matrix(data = cov.matrix, ncol = length(t), nrow = length(t))
 rm(grid)
 
@@ -139,15 +152,20 @@ dat$Y_Smooth = rep(NA, N*g*length(t))
 for(i in 1:(N*g)){
   start = (i-1)*length(t) + 1
   end = i*length(t)
-  dat$Y_Smooth[start:end] = with(dat, smooth.spline(Time[start:end], Y_Sim[start:end], nknots = 20))$y
+  dat$Y_Smooth[start:end] = with(dat,
+                                 smooth.spline(Time[start:end], Y_Sim[start:end],
+                                               nknots = 20))$y
 }
 rm(i, start, end, t, mu.t)
 
+## Center and scale the time variable
+dat$Time_Standardized = scale(dat$Time)
+
 ## Calculate higher-order time terms
-dat$Time_2 = dat$Time^2
-dat$Time_3 = dat$Time^3
-dat$Time_4 = dat$Time^4
-dat$Time_5 = dat$Time^5
+dat$Time_Stan_2 = dat$Time_Standardized^2
+dat$Time_Stan_3 = dat$Time_Standardized^3
+dat$Time_Stan_4 = dat$Time_Standardized^4
+dat$Time_Stan_5 = dat$Time_Standardized^5
 
 ```
 
@@ -155,16 +173,43 @@ dat$Time_5 = dat$Time^5
 
 
 
+```{r, include=FALSE}
+
+## Save the data objects
+save(list = ls(), file = "data/simulateddata.rda")
+
+```
+
+
+
+
+<br>
+<br>
+\pagebreak
+
 #### Figure 1: The true effect functions along with the simulated data.
 ```{r, echo=FALSE}
 
-ggplot() +
+## Create the plot
+figure = ggplot() +
   geom_line(data = true.data, aes(x = Time, y = Y_True, color = Group), size = 1.25) +
   geom_point(data = dat, aes(x = Time, y = Y_Sim, color = Group), alpha = 0.3, size = 0.9) +
   theme_bw() +
   scale_color_brewer(palette = "Set1") +
   xlab("Time") +
   ylab("Y")
+
+## Save the plot
+ggsave(plot = figure,
+       filename = "figure1.pdf",
+       device = "pdf",
+       path = "figs/",
+       width = 8,
+       height = 6)
+
+## Return the plot
+figure
+rm(figure)
 
 ```
 
@@ -179,12 +224,25 @@ ggplot() +
 #### Figure 2: The smoothed subject-specific curves from the simulated data.
 ```{r, echo=FALSE}
 
-ggplot(data = dat, aes(x = Time, y = Y_Smooth, group = ID, color = Group)) +
+## Create the plot
+figure = ggplot(data = dat, aes(x = Time, y = Y_Smooth, group = ID, color = Group)) +
   geom_line() +
   theme_bw() +
   scale_color_brewer(palette = "Set1") +
   xlab("Time") +
   ylab("Y")
+
+## Save the plot
+ggsave(plot = figure,
+       filename = "figure2.pdf",
+       device = "pdf",
+       path = "figs/",
+       width = 8,
+       height = 6)
+
+## Return the plot
+figure
+rm(figure)
 
 ```
 
@@ -200,11 +258,11 @@ ggplot(data = dat, aes(x = Time, y = Y_Smooth, group = ID, color = Group)) +
 ```{r, echo=FALSE}
 
 ## Find the mean heights at each time for each gender
-group.means = aggregate(dat$Y_Smooth ~ dat$Time + dat$Group, FUN = mean)
+group.means = aggregate(dat$Y_Smooth ~ dat$Time_Standardized + dat$Group, FUN = mean)
 names(group.means) = c("Time","Group","Y")
 
 ## Find the gender-specific SD
-group.sds = aggregate(dat$Y_Smooth ~ dat$Time + dat$Group, FUN = sd)
+group.sds = aggregate(dat$Y_Smooth ~ dat$Time_Standardized + dat$Group, FUN = sd)
 names(group.sds) = c("Time","Group","SD")
 
 ## Combine means and sds
@@ -216,7 +274,7 @@ group.summ$Lower = group.summ$Y - 2*group.summ$SD
 group.summ$Upper = group.summ$Y + 2*group.summ$SD
 
 ## Plot the gender-specific curves
-ggplot(data = group.summ, aes(x = Time, y = Y, fill = Group)) +
+figure = ggplot(data = group.summ, aes(x = Time, y = Y, fill = Group)) +
   geom_line() +
   theme_bw() +
   scale_color_brewer(palette = "Set1") +
@@ -224,7 +282,18 @@ ggplot(data = group.summ, aes(x = Time, y = Y, fill = Group)) +
   ylab("Y") +
   geom_ribbon(aes(ymin = Lower, ymax = Upper), alpha = 0.4) +
   scale_fill_brewer(palette = "Set1")
-rm(group.summ)
+
+## Save the plot
+ggsave(plot = figure,
+       filename = "figure3.pdf",
+       device = "pdf",
+       path = "figs/",
+       width = 8,
+       height = 6)
+
+## Return the plot
+figure
+rm(figure, group.summ)
 
 ```
 
@@ -242,7 +311,9 @@ Fit a 5th-order linear model with time-by-group and $\text{Time}^2$-by-group int
 ```{r}
 
 ## Fit the model
-mod = lm(Y_Smooth ~ Group + Time + Time_2 + Time_3 + Time_4 + Time_5 + Group*Time + Group*Time_2, data = dat)
+mod = lm(Y_Smooth ~ Group + Time_Standardized + Time_Stan_2 + Time_Stan_3 +
+           Time_Stan_4 + Time_Stan_5 +
+           Group*Time_Standardized + Group*Time_Stan_2, data = dat)
 
 ## Calculate the fitted values
 dat$Y_Smooth_Fitted_lm = fitted(mod)
@@ -253,16 +324,44 @@ dat$Y_Smooth_Fitted_lm = fitted(mod)
 
 
 
+```{r, include=FALSE}
+
+## Save the model object
+save(mod, file = "output/model_lm.rda")
+rm(mod)
+
+```
+
+
+
+
+
+
+<br>
+<br>
+
 #### Figure 4: The group-level mean functions from lm() using a 5th-order linear model with time-by-group and $\text{Time}^2$-by-group interactions.
 ```{r, echo=FALSE}
 
-ggplot(data = dat, aes(x = Time, y = Y_Smooth_Fitted_lm, group = ID, color = Group)) +
+## Create the plot
+figure = ggplot(data = dat, aes(x = Time, y = Y_Smooth_Fitted_lm, group = ID, color = Group)) +
   geom_line() +
   theme_bw() +
   scale_color_brewer(palette = "Set1") +
   xlab("Time") +
   ylab("Y")
-rm(mod)
+
+## Save the plot
+ggsave(plot = figure,
+       filename = "figure4.pdf",
+       device = "pdf",
+       path = "figs/",
+       width = 8,
+       height = 6)
+
+## Return the plot
+figure
+rm(figure)
 
 ```
 
@@ -282,12 +381,21 @@ Fit a penalized spline using lme():
 ## Penalized basis functions
 K = 24
 qtiles = seq(0, 1, length = K + 2)[-c(1, K + 2)] 
-knots = quantile(dat$Time, qtiles)
-random.basis = cbind(sapply(knots, function(k) I((dat$Time - k)^2)*(dat$Time - k > 0)))
+knots = quantile(dat$Time_Standardized, qtiles)
+random.basis = cbind(sapply(knots,
+                            function(k){
+                              I((dat$Time_Standardized - k)^2)*(dat$Time_Standardized - k > 0)
+                              }
+                            )
+                     )
 rm(qtiles)
 
 ## Define the fixed basis
-fixed.basis = cbind(1, as.numeric(dat$Group == "2"), as.numeric(dat$Group == "3"), dat$Time, dat$Time_2)
+fixed.basis = cbind(1,
+                    as.numeric(dat$Group == "2"),
+                    as.numeric(dat$Group == "3"),
+                    dat$Time_Standardized,
+                    dat$Time_Stan_2)
 
 ## Partition the random.basis matrix
 random.basis.1 = as.numeric(dat$Group == "1")*random.basis
@@ -312,8 +420,13 @@ coefs = c( unlist(mod$coefficients$fixed), unlist(mod$coefficients$random) )
 #var.u2 = getVarCov(mod)[1,1]
 
 ## Calculate the fitted values
-dat$Y_Smooth_Fitted_lme = as.vector( cbind(fixed.basis, random.basis.1, random.basis.2, random.basis.3) %*% coefs )
-rm(fixed.basis, mod, random.basis, coefs, knots, Y)
+dat$Y_Smooth_Fitted_lme = as.vector( cbind(fixed.basis,
+                                           random.basis.1,
+                                           random.basis.2,
+                                           random.basis.3) %*% coefs )
+
+## Remove R objects
+rm(fixed.basis, random.basis, coefs, knots, Y)
 
 ```
 
@@ -321,15 +434,44 @@ rm(fixed.basis, mod, random.basis, coefs, knots, Y)
 
 
 
+```{r, include=FALSE}
+
+## Save the model object
+save(mod, file = "output/model_lme.rda")
+rm(mod)
+
+```
+
+
+
+
+
+<br>
+<br>
+\pagebreak
+
 #### Figure 5: The group-level mean functions using penalized splines and lme().
 ```{r, echo=FALSE}
 
-ggplot(data = dat, aes(x = Time, y = Y_Smooth_Fitted_lme, group = ID, color = Group)) +
+## Create the plot
+figure = ggplot(data = dat, aes(x = Time, y = Y_Smooth_Fitted_lme, group = ID, color = Group)) +
   geom_line() +
   theme_bw() +
   scale_color_brewer(palette = "Set1") +
   xlab("Time") +
   ylab("Y")
+
+## Save the plot
+ggsave(plot = figure,
+       filename = "figure5.pdf",
+       device = "pdf",
+       path = "figs/",
+       width = 8,
+       height = 6)
+
+## Return the plot
+figure
+rm(figure)
 
 ```
 
@@ -349,11 +491,11 @@ Fit a 5th-order linear model with time-by-group and $\text{Time}^2$-by-group int
 ## Define values
 n = nrow(dat)
 Y = dat$Y_Smooth
-X = dat$Time
-X_2 = dat$Time_2
-X_3 = dat$Time_3
-X_4 = dat$Time_4
-X_5 = dat$Time_5
+X = c(dat$Time_Standardized)
+X_2 = c(dat$Time_Stan_2)
+X_3 = c(dat$Time_Stan_3)
+X_4 = c(dat$Time_Stan_4)
+X_5 = c(dat$Time_Stan_5)
 G.2 = as.numeric(dat$Group == "2")
 G.3 = as.numeric(dat$Group == "3")
 
@@ -379,22 +521,58 @@ sigma     <- 1/sqrt(inv.var)
 
 ## Compile the model
 model = jags.model(textConnection(model_string),
-                   data = list(Y = Y, n = n, X = X, X_2 = X_2, X_3 = X_3, X_4 = X_4, X_5 = X_5, G.2 = G.2, G.3 = G.3),
+                   data = list(Y = Y,
+                               n = n,
+                               X = X,
+                               X_2 = X_2,
+                               X_3 = X_3,
+                               X_4 = X_4,
+                               X_5 = X_5,
+                               G.2 = G.2,
+                               G.3 = G.3),
                    n.chains = 3,
                    n.adapt  = 1000)
 
 ## Burn-in samples
-update(model, 1000)
+update(model,
+       1000,
+       progress.bar = "none")
 
 ## Draw additional samples
 samp = coda.samples(model,
                     variable.names = c("beta","sigma"),
-                    thin = 5,
-                    n.iter = 15000)
+                    thin = 3,
+                    n.iter = 5000,
+                    progress.bar = "none")
+
+```
+
+
+
+
+
+```{r, include=FALSE}
+
+## Save the model objects
+save(model,
+     samp,
+     file = "output/model_JAGS.rda")
+
+```
+
+
+
+
+
+<br>
+<br>
+
+Investigate the fit of the model and extract the fitted values:
+```{r}
 
 ## Investigate the model
 summary(samp)
-#plot(samp)
+plot(samp)
 
 ## Save the coefficients from the model
 coefs = data.frame( summary(samp)$statistics )
@@ -403,7 +581,11 @@ coefs = data.frame( summary(samp)$statistics )
 betas = coefs$Mean[ row.names(coefs) %in% paste0( paste0("beta[",1:12), "]") ]
 
 ## Calculate the fitted values
-dat$Y_Smooth_Fitted_JAGS_5 = c(t(betas) %*% t(cbind(1, X, X_2, X_3, X_4, X_5, G.2, G.3, X*G.2, X*G.3, X_2*G.2, X_2*G.3)) )
+dat$Y_Smooth_Fitted_JAGS_5 = c(t(betas) %*% t(cbind(1, X, X_2, X_3, X_4, X_5,
+                                                    G.2, G.3, X*G.2, X*G.3,
+                                                    X_2*G.2, X_2*G.3)) )
+
+## Remove R objects
 rm(model, samp, coefs, model_string, n, X_3, X_4, X_5, betas)
 
 ```
@@ -412,15 +594,31 @@ rm(model, samp, coefs, model_string, n, X_3, X_4, X_5, betas)
 
 
 
+<br>
+<br>
+
 #### Figure 6: The group-level mean functions from JAGS using a 5th-order linear model with time-by-group and $\text{Time}^2$-by-group interactions.
 ```{r, echo=FALSE}
 
-ggplot(data = dat, aes(x = Time, y = Y_Smooth_Fitted_JAGS_5, group = ID, color = Group)) +
+## Create the plot
+figure = ggplot(data = dat, aes(x = Time, y = Y_Smooth_Fitted_JAGS_5, group = ID, color = Group)) +
   geom_line() +
   theme_bw() +
   scale_color_brewer(palette = "Set1") +
   xlab("Time") +
   ylab("Y")
+
+## Save the plot
+ggsave(plot = figure,
+       filename = "figure6.pdf",
+       device = "pdf",
+       path = "figs/",
+       width = 8,
+       height = 6)
+
+## Return the plot
+figure
+rm(figure)
 
 ```
 
@@ -467,22 +665,59 @@ sigma     <- 1/sqrt(inv.var)
 
 ## Compile the model
 model = jags.model(textConnection(model_string),
-                   data = list(Y = Y, n = n, X = X, X_2 = X_2, G.2 = G.2, G.3 = G.3, K = K, random.basis.1 = random.basis.1, random.basis.2 = random.basis.2, random.basis.3 = random.basis.3),
+                   data = list(Y = Y,
+                               n = n,
+                               X = X,
+                               X_2 = X_2,
+                               G.2 = G.2,
+                               G.3 = G.3,
+                               K = K,
+                               random.basis.1 = random.basis.1,
+                               random.basis.2 = random.basis.2,
+                               random.basis.3 = random.basis.3),
                    n.chains = 3,
                    n.adapt  = 1000)
 
 ## Burn-in samples
-update(model, 1000)
+update(model,
+       1000,
+       progress.bar = "none")
 
 ## Draw additional samples
 samp = coda.samples(model,
                     variable.names = c("beta","alpha","sigma"),
-                    thin = 5,
-                    n.iter = 15000)
+                    thin = 3,
+                    n.iter = 5000,
+                    progress.bar = "none")
+
+```
+
+
+
+
+
+```{r, include=FALSE}
+
+## Save the model objects
+save(model,
+     samp,
+     file = "output/model_JAGS_spline.rda")
+
+```
+
+
+
+
+
+<br>
+<br>
+
+Investigate the fit of the model and extract the fitted values:
+```{r}
 
 ## Investigate the model
 summary(samp)
-#plot(samp)
+plot(samp)
 
 ## Save the coefficients from the model
 coefs = data.frame( summary(samp)$statistics )
@@ -492,11 +727,20 @@ coefs = data.frame( summary(samp)$statistics )
 #var.u4
 
 ## Extract the parameter estimates and order them c(fixed, random)
-params = c( coefs$Mean[ row.names(coefs) %in% paste0( paste0("beta[",1:5),"]") ], coefs$Mean[ row.names(coefs) %in% paste0( paste0("alpha[",1:72),"]") ] )
+params = c( coefs$Mean[ row.names(coefs) %in% paste0( paste0("beta[",1:5),"]") ],
+            coefs$Mean[ row.names(coefs) %in% paste0( paste0("alpha[",1:72),"]") ] )
 
 ## Calculate the fitted values
-dat$Y_Smooth_Fitted_JAGS_Spline = c(t(params) %*% t(cbind(1, G.2, G.3, X, X_2, random.basis.1, random.basis.2, random.basis.3)) )
-rm(coefs, model, samp, model_string, random.basis.1, random.basis.2, random.basis.3, n, G.2, G.3, K, params)
+dat$Y_Smooth_Fitted_JAGS_Spline = c(t(params) %*% t(cbind(1,
+                                                          G.2,
+                                                          G.3,
+                                                          X,
+                                                          X_2,
+                                                          random.basis.1,
+                                                          random.basis.2,
+                                                          random.basis.3)) )
+rm(coefs, model, samp, model_string, random.basis.1, random.basis.2,
+   random.basis.3, n, G.2, G.3, K, params)
 
 ```
 
@@ -504,15 +748,100 @@ rm(coefs, model, samp, model_string, random.basis.1, random.basis.2, random.basi
 
 
 
+<br>
+<br>
+
 #### Figure 7: The group-level mean functions using penalized splines and JAGS.
 ```{r, echo=FALSE}
 
-ggplot(data = dat, aes(x = Time, y = Y_Smooth_Fitted_JAGS_Spline, group = ID, color = Group)) +
+## Create the plot
+figure = ggplot(data = dat, aes(x = Time, y = Y_Smooth_Fitted_JAGS_Spline, group = ID, color = Group)) +
   geom_line() +
   theme_bw() +
   scale_color_brewer(palette = "Set1") +
   xlab("Time") +
   ylab("Y")
+
+## Save the plot
+ggsave(plot = figure,
+       filename = "figure7.pdf",
+       device = "pdf",
+       path = "figs/",
+       width = 8,
+       height = 6)
+
+## Return the plot
+figure
+rm(figure)
+
+```
+
+
+
+
+
+<br>
+<br>
+\pagebreak
+
+#### Figure 8: A comparison of the fitted effect functions from each model.
+```{r, echo=FALSE}
+
+## Subset the data to only 1 ID per group
+dat.temp = dat[dat$ID %in% c(1, 11, 21), ]
+
+## Combine the fitted values
+temp = data.frame(Y = c(dat.temp$Y_True,
+                        dat.temp$Y_Smooth_Fitted_lm,
+                        dat.temp$Y_Smooth_Fitted_lme,
+                        dat.temp$Y_Smooth_Fitted_JAGS_5,
+                        dat.temp$Y_Smooth_Fitted_JAGS_Spline),
+                  X = rep(dat.temp$Time, 5),
+                  Group = rep(dat.temp$Group, 5),
+                  Model = c( rep("True Functions", nrow(dat.temp)),
+                             rep("lm() Model", nrow(dat.temp)),
+                             rep("lme() Spline", nrow(dat.temp)),
+                             rep("JAGS Model", nrow(dat.temp)),
+                             rep("JAGS Spline", nrow(dat.temp)) ) )
+rm(dat.temp)
+
+## Create factors
+temp$Model = factor(temp$Model,
+                    levels = c("True Functions","lm() Model","lme() Spline","JAGS Model","JAGS Spline"))
+temp$Group = factor(temp$Group)
+
+## Compare the fits
+figure = ggplot(data = temp, aes(x = X, y = Y, color = Group)) +
+  geom_line(aes(linetype = Model), size = 1.05) +
+  theme_bw() +
+  scale_color_brewer(palette = "Set1") +
+  xlab("Time") +
+  ylab("Y") +
+  geom_point(data = dat, aes(x = Time, y = Y_Sim, color = Group), size = 0.5, alpha = 0.2)
+
+## Save the plot
+ggsave(plot = figure,
+       filename = "figure8.pdf",
+       device = "pdf",
+       path = "figs/",
+       width = 8,
+       height = 6)
+
+## Return the plot
+figure
+rm(figure, temp)
+
+```
+
+
+
+
+
+```{r, include=FALSE}
+
+## Save the dataset with all of the fitted values
+save(list = ls(),
+     file = "data/finaldata.rda")
 
 ```
 
@@ -532,7 +861,5 @@ A summary of the R session used for the analysis.
 print(sessionInfo(), local = FALSE)
 
 ```
-
-
 
 
