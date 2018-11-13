@@ -6,4 +6,4 @@ Then, analyze the data using these four models:
 * A 5th-order linear model with interactions using lm().
 * A penalized spline model using lme().
 * A 5th-order linear model with interactions using JAGS.
-* A penalized model using JAGS.
+* A penalized spline model using JAGS.

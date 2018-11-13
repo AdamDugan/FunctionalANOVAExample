@@ -574,6 +574,12 @@ Investigate the fit of the model and extract the fitted values:
 summary(samp)
 plot(samp)
 
+## Gelman-Rubin convergence diagnostic
+gelman.diag(x = samp,
+            confidence = 0.95,
+            transform = FALSE, 
+            autoburnin = FALSE)
+
 ## Save the coefficients from the model
 coefs = data.frame( summary(samp)$statistics )
 
@@ -721,6 +727,12 @@ plot(samp)
 
 ## Save the coefficients from the model
 coefs = data.frame( summary(samp)$statistics )
+
+## Gelman-Rubin convergence diagnostic
+gelman.diag(x = samp,
+            confidence = 0.95,
+            transform = FALSE, 
+            autoburnin = FALSE)
 
 ## Save the lambda estimates
 #var.e4

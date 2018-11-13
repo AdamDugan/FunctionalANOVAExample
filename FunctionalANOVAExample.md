@@ -1,6 +1,6 @@
 ---
 title: "Functional ANOVA Example"
-date: 'November 09, 2018'
+date: 'November 13, 2018'
 output:
   html_document:
     keep_md: true
@@ -160,7 +160,7 @@ dat$Time_Stan_5 = dat$Time_Standardized^5
 \pagebreak
 
 #### Figure 1: The true effect functions along with the simulated data.
-<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -171,7 +171,7 @@ dat$Time_Stan_5 = dat$Time_Standardized^5
 \pagebreak
 
 #### Figure 2: The smoothed subject-specific curves from the simulated data.
-<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -182,7 +182,7 @@ dat$Time_Stan_5 = dat$Time_Standardized^5
 \pagebreak
 
 #### Figure 3: The group-level mean functions for the smoothed simulated data $\pm$ 2 point-wise standard deviations.
-<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -221,7 +221,7 @@ dat$Y_Smooth_Fitted_lm = fitted(mod)
 <br>
 
 #### Figure 4: The group-level mean functions from lm() using a 5th-order linear model with time-by-group and $\text{Time}^2$-by-group interactions.
-<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -302,7 +302,7 @@ rm(fixed.basis, random.basis, coefs, knots, Y)
 \pagebreak
 
 #### Figure 5: The group-level mean functions using penalized splines and lme().
-<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -420,43 +420,74 @@ summary(samp)
 ##    plus standard error of the mean:
 ## 
 ##                Mean        SD  Naive SE Time-series SE
-## beta[1]   0.9498530 0.0028624 4.049e-05      1.231e-04
-## beta[2]   0.8130485 0.0045886 6.491e-05      3.993e-04
-## beta[3]  -0.0861237 0.0043869 6.205e-05      2.691e-04
-## beta[4]  -0.3802486 0.0057118 8.079e-05      7.336e-04
-## beta[5]   0.0002175 0.0015192 2.149e-05      8.042e-05
-## beta[6]   0.0741531 0.0016719 2.365e-05      1.758e-04
-## beta[7]  -0.3666674 0.0037397 5.290e-05      1.148e-04
-## beta[8]  -0.7537375 0.0036498 5.163e-05      1.093e-04
-## beta[9]   0.0463140 0.0024855 3.516e-05      4.571e-05
-## beta[10] -0.0154927 0.0024697 3.493e-05      4.429e-05
-## beta[11] -0.0066248 0.0027505 3.891e-05      8.438e-05
-## beta[12]  0.2676217 0.0027170 3.843e-05      7.992e-05
-## sigma     0.0785640 0.0007043 9.963e-06      9.963e-06
+## beta[1]   0.9498163 0.0028781 4.071e-05      1.356e-04
+## beta[2]   0.8129251 0.0042336 5.988e-05      3.283e-04
+## beta[3]  -0.0860853 0.0042950 6.075e-05      2.611e-04
+## beta[4]  -0.3800378 0.0050499 7.143e-05      5.315e-04
+## beta[5]   0.0002134 0.0014844 2.100e-05      8.198e-05
+## beta[6]   0.0740816 0.0014806 2.094e-05      1.537e-04
+## beta[7]  -0.3666056 0.0036570 5.173e-05      1.165e-04
+## beta[8]  -0.7537312 0.0037231 5.266e-05      1.208e-04
+## beta[9]   0.0463574 0.0024975 3.533e-05      4.793e-05
+## beta[10] -0.0154825 0.0025100 3.550e-05      4.510e-05
+## beta[11] -0.0066716 0.0027151 3.841e-05      8.734e-05
+## beta[12]  0.2675859 0.0027305 3.862e-05      8.515e-05
+## sigma     0.0785751 0.0007005 9.908e-06      9.907e-06
 ## 
 ## 2. Quantiles for each variable:
 ## 
 ##               2.5%        25%        50%       75%     97.5%
-## beta[1]   0.944450  0.9478468  0.9497829  0.951798  0.955547
-## beta[2]   0.804406  0.8098595  0.8129109  0.816134  0.822332
-## beta[3]  -0.094411 -0.0891581 -0.0860574 -0.083044 -0.077776
-## beta[4]  -0.392637 -0.3838615 -0.3799867 -0.376185 -0.370139
-## beta[5]  -0.002703 -0.0008168  0.0002297  0.001256  0.003116
-## beta[6]   0.071138  0.0729761  0.0740815  0.075170  0.077818
-## beta[7]  -0.374038 -0.3691921 -0.3666630 -0.364093 -0.359528
-## beta[8]  -0.760865 -0.7562031 -0.7537311 -0.751345 -0.746446
-## beta[9]   0.041412  0.0446403  0.0463454  0.048022  0.051082
-## beta[10] -0.020284 -0.0171763 -0.0155193 -0.013820 -0.010615
-## beta[11] -0.012071 -0.0084820 -0.0066064 -0.004763 -0.001228
-## beta[12]  0.262236  0.2658085  0.2676328  0.269467  0.272924
-## sigma     0.077219  0.0780860  0.0785452  0.079038  0.079985
+## beta[1]   0.944052  0.9479298  0.9498256  0.951747  0.955491
+## beta[2]   0.804890  0.8100657  0.8128815  0.815835  0.821151
+## beta[3]  -0.094607 -0.0889633 -0.0860828 -0.083150 -0.077918
+## beta[4]  -0.389897 -0.3835498 -0.3799169 -0.376516 -0.370042
+## beta[5]  -0.002614 -0.0007777  0.0002054  0.001208  0.003158
+## beta[6]   0.071102  0.0730756  0.0740686  0.075115  0.076906
+## beta[7]  -0.373597 -0.3690784 -0.3666754 -0.364101 -0.359461
+## beta[8]  -0.761008 -0.7562844 -0.7538003 -0.751202 -0.746320
+## beta[9]   0.041567  0.0446359  0.0463062  0.048068  0.051265
+## beta[10] -0.020303 -0.0172137 -0.0154819 -0.013845 -0.010498
+## beta[11] -0.012031 -0.0084243 -0.0067044 -0.004871 -0.001247
+## beta[12]  0.262099  0.2657705  0.2676139  0.269386  0.272910
+## sigma     0.077257  0.0780892  0.0785684  0.079055  0.079966
 ```
 
 ```r
 plot(samp)
 ```
 
-<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-18-2.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-18-3.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-18-4.png" style="display: block; margin: auto;" />
+<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-29-2.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-29-3.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-29-4.png" style="display: block; margin: auto;" />
+
+```r
+## Gelman-Rubin convergence diagnostic
+gelman.diag(x = samp,
+            confidence = 0.95,
+            transform = FALSE, 
+            autoburnin = FALSE)
+```
+
+```
+## Potential scale reduction factors:
+## 
+##          Point est. Upper C.I.
+## beta[1]        1.01       1.02
+## beta[2]        1.01       1.04
+## beta[3]        1.01       1.03
+## beta[4]        1.01       1.04
+## beta[5]        1.01       1.04
+## beta[6]        1.01       1.04
+## beta[7]        1.00       1.01
+## beta[8]        1.00       1.00
+## beta[9]        1.00       1.00
+## beta[10]       1.00       1.00
+## beta[11]       1.00       1.00
+## beta[12]       1.00       1.00
+## sigma          1.00       1.00
+## 
+## Multivariate psrf
+## 
+## 1.02
+```
 
 ```r
 ## Save the coefficients from the model
@@ -482,7 +513,7 @@ rm(model, samp, coefs, model_string, n, X_3, X_4, X_5, betas)
 <br>
 
 #### Figure 6: The group-level mean functions from JAGS using a 5th-order linear model with time-by-group and $\text{Time}^2$-by-group interactions.
-<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -597,179 +628,275 @@ summary(samp)
 ## 1. Empirical mean and standard deviation for each variable,
 ##    plus standard error of the mean:
 ## 
-##                 Mean        SD  Naive SE Time-series SE
-## alpha[1]   9.843e-02  0.031042 0.0004391       0.011388
-## alpha[2]   9.612e-02  0.034465 0.0004875       0.009807
-## alpha[3]   1.577e-02  0.051072 0.0007224       0.007766
-## alpha[4]   1.031e-05  0.049358 0.0006982       0.016303
-## alpha[5]  -1.917e-02  0.056470 0.0007988       0.015754
-## alpha[6]  -9.023e-02  0.062454 0.0008834       0.015533
-## alpha[7]  -1.220e-01  0.053317 0.0007542       0.009565
-## alpha[8]  -2.440e-02  0.065134 0.0009213       0.012931
-## alpha[9]  -3.232e-02  0.057137 0.0008082       0.016546
-## alpha[10]  1.034e-01  0.117013 0.0016551       0.053333
-## alpha[11]  1.384e-01  0.114631 0.0016215       0.036047
-## alpha[12] -6.784e-02  0.081508 0.0011529       0.039496
-## alpha[13] -2.445e-01  0.084890 0.0012008       0.032490
-## alpha[14] -3.461e-01  0.221411 0.0031319       0.080247
-## alpha[15] -5.558e-01  0.294054 0.0041594       0.091507
-## alpha[16] -4.420e-01  0.141864 0.0020067       0.017208
-## alpha[17]  6.439e-01  0.509028 0.0072002       0.081737
-## alpha[18]  5.620e-01  0.635577 0.0089902       0.114913
-## alpha[19]  7.883e-01  0.483354 0.0068370       0.202265
-## alpha[20] -1.127e+00  0.831864 0.0117667       0.281105
-## alpha[21] -1.565e-01  1.229285 0.0173882       0.296409
-## alpha[22]  1.591e+00  1.957286 0.0276857       0.483493
-## alpha[23] -1.452e+00  2.521813 0.0356710       0.423094
-## alpha[24]  8.373e-01  3.235315 0.0457634       0.285319
-## alpha[25]  1.151e-01  0.039157 0.0005539       0.008784
-## alpha[26]  1.384e-01  0.044317 0.0006269       0.010712
-## alpha[27]  1.583e-01  0.026920 0.0003808       0.007876
-## alpha[28]  3.545e-02  0.028517 0.0004034       0.008428
-## alpha[29]  2.301e-02  0.046601 0.0006592       0.005675
-## alpha[30] -1.374e-01  0.102178 0.0014453       0.040201
-## alpha[31] -2.229e-01  0.072937 0.0010317       0.021629
-## alpha[32] -3.490e-01  0.086766 0.0012273       0.038113
-## alpha[33] -3.628e-01  0.062772 0.0008879       0.011870
-## alpha[34] -1.971e-01  0.093044 0.0013161       0.042532
-## alpha[35] -1.014e-01  0.203660 0.0028808       0.081103
-## alpha[36]  3.038e-01  0.290174 0.0041045       0.110327
-## alpha[37]  5.713e-01  0.396563 0.0056094       0.094272
-## alpha[38]  6.382e-01  0.299359 0.0042344       0.059158
-## alpha[39]  2.264e-01  0.441886 0.0062505       0.222008
-## alpha[40] -6.575e-01  0.965769 0.0136608       0.383211
-## alpha[41] -5.728e-01  0.875500 0.0123839       0.170884
-## alpha[42] -1.659e+00  0.791028 0.0111891       0.417609
-## alpha[43]  7.146e-01  1.697434 0.0240101       0.967107
-## alpha[44]  1.554e+00  1.557699 0.0220336       0.574244
-## alpha[45] -1.404e+00  3.962382 0.0560478       3.855793
-## alpha[46] -3.818e-01  5.264520 0.0744664       2.567326
-## alpha[47]  1.518e+00  6.088521 0.0861219       1.938404
-## alpha[48] -4.396e-01  6.404307 0.0905887       1.586652
-## alpha[49] -2.451e-01  0.060578 0.0008569       0.025795
-## alpha[50] -2.400e-01  0.051328 0.0007260       0.020606
-## alpha[51] -1.537e-01  0.025290 0.0003577       0.007387
-## alpha[52] -9.159e-02  0.027938 0.0003952       0.009343
-## alpha[53]  1.106e-01  0.078471 0.0011100       0.033695
-## alpha[54]  2.779e-01  0.118450 0.0016755       0.055119
-## alpha[55]  5.544e-01  0.142232 0.0020119       0.061078
-## alpha[56]  7.402e-01  0.150928 0.0021349       0.064126
-## alpha[57]  7.727e-01  0.126162 0.0017846       0.037575
-## alpha[58]  5.300e-01  0.168718 0.0023865       0.067590
-## alpha[59] -9.253e-03  0.298290 0.0042193       0.145329
-## alpha[60] -9.471e-01  0.470810 0.0066596       0.211649
-## alpha[61] -1.964e+00  0.514542 0.0072782       0.224045
-## alpha[62] -1.983e+00  0.257641 0.0036443       0.081409
-## alpha[63] -1.335e+00  0.851061 0.0120382       0.463153
-## alpha[64]  6.972e-01  1.437555 0.0203342       0.724291
-## alpha[65]  3.274e+00  1.285856 0.0181884       0.480196
-## alpha[66]  3.649e+00  1.897094 0.0268343       1.097241
-## alpha[67] -2.094e+00  4.246683 0.0600692       2.350179
-## alpha[68] -4.223e+00  3.549397 0.0502061       1.271504
-## alpha[69]  2.764e+00 10.572825 0.1495522       7.472435
-## alpha[70]  3.572e+00 13.771839 0.1948022      10.086637
-## alpha[71] -6.074e+00 12.843285 0.1816678       5.172560
-## alpha[72]  4.009e+00 11.960810 0.1691852       3.297710
-## beta[1]    6.176e-01  0.031240 0.0004419       0.003670
-## beta[2]   -4.695e-01  0.007443 0.0001053       0.001100
-## beta[3]   -1.533e-01  0.028412 0.0004019       0.010707
-## beta[4]    4.856e-01  0.044755 0.0006331       0.008735
-## beta[5]    1.588e-01  0.017379 0.0002458       0.004390
-## sigma      5.937e-02  0.009868 0.0001396       0.004016
+##                Mean        SD  Naive SE Time-series SE
+## alpha[1]   0.100930  0.027966 0.0003956       0.011751
+## alpha[2]   0.078798  0.036500 0.0005163       0.009715
+## alpha[3]   0.056604  0.037357 0.0005284       0.004359
+## alpha[4]  -0.005973  0.033341 0.0004716       0.014493
+## alpha[5]  -0.096058  0.057185 0.0008089       0.017235
+## alpha[6]  -0.108279  0.048129 0.0006808       0.022255
+## alpha[7]  -0.064669  0.049943 0.0007064       0.010239
+## alpha[8]  -0.044576  0.080929 0.0011447       0.006145
+## alpha[9]   0.002667  0.069234 0.0009793       0.034596
+## alpha[10]  0.144729  0.129189 0.0018274       0.039553
+## alpha[11]  0.016338  0.102333 0.0014475       0.050450
+## alpha[12]  0.045884  0.133919 0.0018943       0.020413
+## alpha[13] -0.310127  0.129826 0.0018364       0.047317
+## alpha[14] -0.320618  0.165999 0.0023481       0.050504
+## alpha[15] -0.657418  0.305633 0.0043232       0.122745
+## alpha[16] -0.145183  0.300685 0.0042532       0.028571
+## alpha[17]  0.134189  0.794625 0.0112399       0.124146
+## alpha[18]  1.242452  0.992237 0.0140352       0.196046
+## alpha[19] -0.119729  0.618490 0.0087485       0.276359
+## alpha[20]  0.078660  0.916351 0.0129617       0.353865
+## alpha[21] -1.342243  1.368320 0.0193548       0.275301
+## alpha[22]  2.240483  1.943260 0.0274873       0.553770
+## alpha[23] -1.428283  2.334249 0.0330179       0.480262
+## alpha[24]  0.284780  3.075654 0.0435050       0.325066
+## alpha[25]  0.113287  0.032062 0.0004535       0.012360
+## alpha[26]  0.121718  0.034058 0.0004818       0.007494
+## alpha[27]  0.162829  0.024198 0.0003423       0.006956
+## alpha[28]  0.056885  0.015515 0.0002195       0.002846
+## alpha[29] -0.012244  0.042356 0.0005991       0.017527
+## alpha[30] -0.118000  0.077256 0.0010928       0.035564
+## alpha[31] -0.262968  0.120106 0.0016989       0.033255
+## alpha[32] -0.264538  0.102763 0.0014536       0.027745
+## alpha[33] -0.421042  0.039709 0.0005617       0.011429
+## alpha[34] -0.254550  0.090651 0.0012823       0.037159
+## alpha[35]  0.023060  0.178190 0.0025205       0.095078
+## alpha[36]  0.171307  0.251137 0.0035523       0.121035
+## alpha[37]  0.663850  0.212615 0.0030074       0.081267
+## alpha[38]  0.499978  0.178612 0.0025265       0.054399
+## alpha[39]  0.440863  0.325187 0.0045998       0.172547
+## alpha[40] -0.479081  0.762401 0.0107841       0.388678
+## alpha[41] -1.441449  0.613626 0.0086797       0.224399
+## alpha[42] -0.532920  0.986692 0.0139567       0.438576
+## alpha[43] -0.029578  1.998136 0.0282636       1.222098
+## alpha[44]  1.524112  1.743863 0.0246669       0.640876
+## alpha[45] -0.601900  4.442419 0.0628379       4.035196
+## alpha[46] -1.592208  6.153887 0.0870465       3.230529
+## alpha[47]  2.706728  6.396442 0.0904774       2.152973
+## alpha[48] -1.472881  6.177511 0.0873807       1.467427
+## alpha[49] -0.235699  0.059984 0.0008485       0.023033
+## alpha[50] -0.234486  0.050199 0.0007101       0.019423
+## alpha[51] -0.198749  0.040514 0.0005731       0.016795
+## alpha[52] -0.080874  0.041274 0.0005838       0.010447
+## alpha[53]  0.086781  0.067793 0.0009589       0.030841
+## alpha[54]  0.337788  0.114112 0.0016141       0.052327
+## alpha[55]  0.490446  0.134226 0.0018986       0.059109
+## alpha[56]  0.811950  0.160773 0.0022741       0.063624
+## alpha[57]  0.732141  0.115570 0.0016347       0.033020
+## alpha[58]  0.458148  0.161818 0.0022889       0.064282
+## alpha[59]  0.011864  0.286445 0.0040518       0.143303
+## alpha[60] -0.869500  0.483225 0.0068352       0.217742
+## alpha[61] -1.885156  0.485883 0.0068728       0.201628
+## alpha[62] -2.186916  0.221571 0.0031341       0.060569
+## alpha[63] -1.251156  0.876006 0.0123911       0.506570
+## alpha[64]  0.771431  1.449645 0.0205052       0.707802
+## alpha[65]  3.361628  1.250984 0.0176951       0.458808
+## alpha[66]  3.071022  1.877901 0.0265628       1.096287
+## alpha[67] -1.309549  4.208079 0.0595231       2.226257
+## alpha[68] -4.778068  3.421383 0.0483953       1.326012
+## alpha[69]  3.204080 10.345038 0.1463302       7.957917
+## alpha[70]  3.096795 13.611125 0.1925289       9.859651
+## alpha[71] -5.784650 12.788305 0.1808901       4.873187
+## alpha[72]  4.087709 11.976748 0.1694107       3.263571
+## beta[1]    0.648118  0.026778 0.0003788       0.003462
+## beta[2]   -0.467545  0.006271 0.0000887       0.001124
+## beta[3]   -0.153593  0.027350 0.0003869       0.010484
+## beta[4]    0.536610  0.042813 0.0006056       0.006721
+## beta[5]    0.178873  0.018003 0.0002546       0.003483
+## sigma      0.059361  0.010073 0.0001425       0.004041
 ## 
 ## 2. Quantiles for each variable:
 ## 
-##                2.5%       25%       50%      75%     97.5%
-## alpha[1]    0.04663   0.06861  0.098159  0.12535  0.153137
-## alpha[2]    0.04954   0.07181  0.089146  0.11034  0.163560
-## alpha[3]   -0.06689  -0.01949  0.003067  0.07330  0.092149
-## alpha[4]   -0.10790  -0.02954  0.011985  0.03923  0.069800
-## alpha[5]   -0.13128  -0.06644 -0.013308  0.02565  0.071561
-## alpha[6]   -0.20459  -0.14049 -0.088449 -0.03219  0.004029
-## alpha[7]   -0.23466  -0.16080 -0.103890 -0.08605 -0.044610
-## alpha[8]   -0.12434  -0.07963 -0.030080  0.02673  0.092134
-## alpha[9]   -0.14004  -0.07882 -0.037381  0.02288  0.056659
-## alpha[10]  -0.08285   0.02075  0.092035  0.17810  0.343441
-## alpha[11]  -0.11392   0.05197  0.142196  0.23568  0.313911
-## alpha[12]  -0.28713  -0.10853 -0.065903 -0.01691  0.082360
-## alpha[13]  -0.43629  -0.30287 -0.228011 -0.17640 -0.123541
-## alpha[14]  -0.87323  -0.45795 -0.318244 -0.16121 -0.035874
-## alpha[15]  -1.13187  -0.76649 -0.461493 -0.33537 -0.058776
-## alpha[16]  -0.72563  -0.55212 -0.407344 -0.33465 -0.208547
-## alpha[17]  -0.24191   0.29791  0.599906  1.15844  1.472414
-## alpha[18]  -0.63107  -0.07552  0.777810  0.98911  1.615424
-## alpha[19]  -0.03633   0.45737  0.677843  1.25844  1.565237
-## alpha[20]  -2.93639  -1.76220 -0.905652 -0.53073  0.197836
-## alpha[21]  -2.23653  -1.17731 -0.525831  0.94335  2.140953
-## alpha[22]  -2.42600   0.43351  1.813705  2.71821  5.997911
-## alpha[23]  -7.34184  -2.88122 -1.431865 -0.01846  3.372787
-## alpha[24]  -5.31283  -1.35568  0.769107  2.90565  7.455977
-## alpha[25]   0.04095   0.08302  0.117336  0.13715  0.190428
-## alpha[26]   0.05020   0.10685  0.138520  0.17749  0.209353
-## alpha[27]   0.10141   0.13873  0.166770  0.17577  0.197889
-## alpha[28]  -0.01558   0.01263  0.037406  0.06299  0.078672
-## alpha[29]  -0.04504  -0.02040  0.018533  0.06935  0.095434
-## alpha[30]  -0.29680  -0.22267 -0.136971 -0.05766  0.077562
-## alpha[31]  -0.35257  -0.26970 -0.226440 -0.17308 -0.083600
-## alpha[32]  -0.48143  -0.41315 -0.375421 -0.27746 -0.169935
-## alpha[33]  -0.46732  -0.42107 -0.373164 -0.30124 -0.260702
-## alpha[34]  -0.35560  -0.26177 -0.206475 -0.12153 -0.031954
-## alpha[35]  -0.40942  -0.26390 -0.139726  0.04886  0.324820
-## alpha[36]  -0.15817   0.07404  0.306866  0.44800  0.883120
-## alpha[37]  -0.09634   0.26833  0.526626  0.88627  1.222698
-## alpha[38]   0.07133   0.39448  0.681175  0.90689  1.042314
-## alpha[39]  -0.79517   0.01033  0.300906  0.59954  0.766891
-## alpha[40]  -2.43572  -1.38862 -0.466607  0.03950  1.008151
-## alpha[41]  -2.02523  -1.49252 -0.501753  0.08404  1.001847
-## alpha[42]  -2.75973  -2.29888 -1.858349 -1.11341  0.030027
-## alpha[43]  -2.16064  -0.70868  1.143112  2.08346  3.072543
-## alpha[44]  -1.77528   0.46192  1.979921  2.89471  3.559893
-## alpha[45]  -6.57902  -4.92629 -2.356818  2.28272  5.714244
-## alpha[46]  -8.66932  -5.37476 -0.054048  4.25893  7.359732
-## alpha[47] -12.46651  -2.28471  2.126039  6.48471 10.551319
-## alpha[48]  -9.71828  -4.85220 -1.515029  2.08357 16.026171
-## alpha[49]  -0.34570  -0.29158 -0.254160 -0.20004 -0.120427
-## alpha[50]  -0.32756  -0.27805 -0.242952 -0.20545 -0.133752
-## alpha[51]  -0.19648  -0.17530 -0.153255 -0.13077 -0.106925
-## alpha[52]  -0.13180  -0.10863 -0.098070 -0.08272 -0.024470
-## alpha[53]  -0.01240   0.04870  0.100606  0.18833  0.237482
-## alpha[54]   0.07706   0.17669  0.281454  0.38341  0.467586
-## alpha[55]   0.26133   0.45319  0.562979  0.67307  0.773012
-## alpha[56]   0.41044   0.65007  0.788711  0.86508  0.917345
-## alpha[57]   0.46798   0.71206  0.770709  0.84889  0.951568
-## alpha[58]   0.11089   0.42457  0.557100  0.69323  0.724420
-## alpha[59]  -0.48793  -0.28110 -0.020054  0.28205  0.488791
-## alpha[60]  -1.59839  -1.34445 -1.034555 -0.57760 -0.004594
-## alpha[61]  -2.53982  -2.37781 -2.123068 -1.59161 -0.831264
-## alpha[62]  -2.38172  -2.16930 -2.022675 -1.83790 -1.337913
-## alpha[63]  -2.49883  -2.15816 -1.453446 -0.56981  0.195250
-## alpha[64]  -1.98808  -0.47583  1.051043  2.04433  2.464756
-## alpha[65]  -0.15323   2.83754  3.775097  4.16653  4.606148
-## alpha[66]  -0.07740   2.00607  4.127849  5.22122  6.444419
-## alpha[67]  -7.76371  -5.88942 -3.423868  1.62531  5.874761
-## alpha[68]  -9.25523  -7.12542 -4.674843 -1.56688  3.022104
-## alpha[69] -14.80658  -7.68490  6.421266 11.76594 15.286022
-## alpha[70] -18.12600 -10.47601  3.158583 17.04130 24.432461
-## alpha[71] -24.62559 -18.02484 -6.703078  5.15544 20.145486
-## alpha[72] -28.44636  -3.28266  5.756948 13.69716 20.663693
-## beta[1]     0.55886   0.59511  0.625725  0.64390  0.658727
-## beta[2]    -0.48351  -0.47430 -0.469876 -0.46501 -0.453365
-## beta[3]    -0.21431  -0.17333 -0.147423 -0.12888 -0.116554
-## beta[4]     0.40066   0.46348  0.494966  0.52068  0.546075
-## beta[5]     0.12382   0.15311  0.162005  0.17117  0.184236
-## sigma       0.04731   0.05078  0.057113  0.06642  0.081680
+##                 2.5%       25%       50%      75%     97.5%
+## alpha[1]    0.047293   0.08004  0.101578  0.12354  0.146093
+## alpha[2]    0.029944   0.05307  0.068540  0.10624  0.146159
+## alpha[3]   -0.008068   0.01860  0.065396  0.08714  0.111874
+## alpha[4]   -0.076524  -0.02794 -0.002424  0.01883  0.054605
+## alpha[5]   -0.197435  -0.13819 -0.095931 -0.05789  0.007078
+## alpha[6]   -0.182902  -0.14822 -0.117389 -0.06732 -0.019769
+## alpha[7]   -0.157272  -0.10543 -0.051672 -0.03100  0.019220
+## alpha[8]   -0.174667  -0.14077 -0.025656  0.01549  0.070274
+## alpha[9]   -0.125676  -0.04398 -0.011758  0.04337  0.161633
+## alpha[10]  -0.074681   0.05117  0.141211  0.24661  0.403021
+## alpha[11]  -0.217362  -0.06706  0.049812  0.10160  0.151017
+## alpha[12]  -0.142933  -0.04109 -0.012227  0.17839  0.313697
+## alpha[13]  -0.647852  -0.38407 -0.287852 -0.20824 -0.132210
+## alpha[14]  -0.599348  -0.45037 -0.335141 -0.20704 -0.001277
+## alpha[15]  -1.206294  -0.92601 -0.603356 -0.44497 -0.035589
+## alpha[16]  -0.514887  -0.39059 -0.256471  0.19543  0.385954
+## alpha[17]  -0.996223  -0.66020  0.004191  0.83392  1.609224
+## alpha[18]  -0.209923   0.16176  1.287847  1.94061  2.939496
+## alpha[19]  -0.983770  -0.57641 -0.290983  0.29516  1.166444
+## alpha[20]  -1.362377  -0.68416  0.050612  0.81082  1.693354
+## alpha[21]  -3.778726  -2.35493 -1.314154 -0.31006  0.981806
+## alpha[22]  -0.841118   0.66463  1.902209  3.71770  6.002177
+## alpha[23]  -6.625244  -2.90501 -1.196316  0.11384  2.672067
+## alpha[24]  -5.690882  -1.81326  0.238137  2.32893  6.464818
+## alpha[25]   0.041168   0.09576  0.116262  0.13325  0.174553
+## alpha[26]   0.060789   0.09664  0.120278  0.13676  0.187569
+## alpha[27]   0.102637   0.14866  0.165401  0.17998  0.198580
+## alpha[28]   0.032816   0.04416  0.054491  0.06932  0.088677
+## alpha[29]  -0.112833  -0.03444 -0.004672  0.01272  0.059906
+## alpha[30]  -0.271205  -0.16486 -0.123564 -0.05647  0.009928
+## alpha[31]  -0.526574  -0.32440 -0.230806 -0.19008 -0.055224
+## alpha[32]  -0.433950  -0.33742 -0.258345 -0.19285 -0.048811
+## alpha[33]  -0.465962  -0.44495 -0.432805 -0.41290 -0.308446
+## alpha[34]  -0.367381  -0.32871 -0.286615 -0.18711 -0.051783
+## alpha[35]  -0.251769  -0.14065  0.025786  0.19709  0.297711
+## alpha[36]  -0.280661  -0.04205  0.176956  0.37829  0.616169
+## alpha[37]   0.131475   0.54131  0.778938  0.81276  0.852291
+## alpha[38]   0.174785   0.39393  0.519614  0.61222  0.823250
+## alpha[39]  -0.272606   0.15436  0.539956  0.69763  0.902438
+## alpha[40]  -1.489112  -1.13476 -0.683639  0.12227  1.040851
+## alpha[41]  -2.233545  -1.93548 -1.535154 -1.12488  0.051466
+## alpha[42]  -2.159974  -1.30106 -0.572243  0.14997  1.494590
+## alpha[43]  -3.575204  -1.77074  0.459928  1.75632  2.624507
+## alpha[44]  -2.370310   0.20247  1.868497  2.97527  4.168005
+## alpha[45]  -5.988655  -4.47707 -1.717184  2.98640  8.058024
+## alpha[46] -13.285008  -6.62497 -1.098225  4.26474  6.953267
+## alpha[47] -11.686552  -1.75901  2.917651  7.73879 13.184019
+## alpha[48] -11.370401  -6.10222 -1.735193  2.08637 13.947003
+## alpha[49]  -0.347141  -0.27583 -0.241262 -0.19435 -0.119678
+## alpha[50]  -0.319150  -0.28059 -0.233899 -0.19898 -0.139042
+## alpha[51]  -0.265241  -0.22665 -0.205235 -0.17389 -0.100241
+## alpha[52]  -0.140907  -0.11782 -0.088868 -0.04530 -0.014693
+## alpha[53]  -0.031882   0.03240  0.089503  0.14423  0.214799
+## alpha[54]   0.113684   0.24160  0.357336  0.43653  0.488653
+## alpha[55]   0.239875   0.38977  0.501778  0.60166  0.689175
+## alpha[56]   0.465805   0.70898  0.843856  0.92840  1.064332
+## alpha[57]   0.429807   0.69308  0.745316  0.80761  0.912119
+## alpha[58]   0.120193   0.34561  0.477784  0.57070  0.724619
+## alpha[59]  -0.490775  -0.22733  0.010368  0.27412  0.515033
+## alpha[60]  -1.523015  -1.29333 -0.951825 -0.50611  0.105058
+## alpha[61]  -2.419548  -2.24961 -2.082613 -1.57211 -0.766763
+## alpha[62]  -2.517001  -2.34725 -2.209168 -2.08798 -1.620869
+## alpha[63]  -2.475773  -2.06951 -1.381585 -0.43689  0.249158
+## alpha[64]  -2.080971  -0.41342  1.068498  2.03974  2.721522
+## alpha[65]   0.024690   2.98236  3.793321  4.29084  4.686094
+## alpha[66]  -0.367334   1.51554  3.581731  4.75391  5.446358
+## alpha[67]  -6.676257  -4.71151 -2.619764  2.21040  6.749500
+## alpha[68]  -9.543722  -7.94542 -5.346663 -1.94895  1.867646
+## alpha[69] -15.062277  -7.12924  7.574215 12.27541 14.837350
+## alpha[70] -16.538591 -10.53068  2.876286 15.87447 24.006679
+## alpha[71] -24.373764 -17.79959 -6.592537  5.24215 19.083462
+## alpha[72] -26.207740  -3.40406  5.929935 14.09868 20.538086
+## beta[1]     0.614863   0.62543  0.640737  0.67161  0.699686
+## beta[2]    -0.477223  -0.47183 -0.468662 -0.46436 -0.452254
+## beta[3]    -0.214704  -0.17209 -0.148033 -0.13036 -0.117599
+## beta[4]     0.484343   0.50431  0.523144  0.57483  0.622693
+## beta[5]     0.154080   0.16643  0.174332  0.19026  0.215633
+## sigma       0.046948   0.05064  0.056811  0.06646  0.081868
 ```
 
 ```r
 plot(samp)
 ```
 
-<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-2.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-3.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-4.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-5.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-6.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-7.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-8.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-9.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-10.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-11.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-12.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-13.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-14.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-15.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-16.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-17.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-18.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-19.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-22-20.png" style="display: block; margin: auto;" />
+<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-2.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-3.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-4.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-5.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-6.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-7.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-8.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-9.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-10.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-11.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-12.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-13.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-14.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-15.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-16.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-17.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-18.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-19.png" style="display: block; margin: auto;" /><img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-33-20.png" style="display: block; margin: auto;" />
 
 ```r
 ## Save the coefficients from the model
 coefs = data.frame( summary(samp)$statistics )
 
+## Gelman-Rubin convergence diagnostic
+gelman.diag(x = samp,
+            confidence = 0.95,
+            transform = FALSE, 
+            autoburnin = FALSE)
+```
+
+```
+## Potential scale reduction factors:
+## 
+##           Point est. Upper C.I.
+## alpha[1]        1.12       1.36
+## alpha[2]        2.99       6.52
+## alpha[3]        5.49      10.94
+## alpha[4]        1.30       1.85
+## alpha[5]        1.78       2.98
+## alpha[6]        1.04       1.13
+## alpha[7]        3.48       6.99
+## alpha[8]        7.05      14.55
+## alpha[9]        1.23       1.98
+## alpha[10]       1.85       3.21
+## alpha[11]       1.09       1.17
+## alpha[12]       3.81       8.82
+## alpha[13]       1.55       2.52
+## alpha[14]       2.10       3.71
+## alpha[15]       1.71       2.75
+## alpha[16]       5.46      11.09
+## alpha[17]       4.71       8.91
+## alpha[18]       4.02      11.01
+## alpha[19]       2.14       4.64
+## alpha[20]       1.88       3.56
+## alpha[21]       2.63       4.80
+## alpha[22]       1.49       2.37
+## alpha[23]       1.12       1.39
+## alpha[24]       1.04       1.09
+## alpha[25]       1.47       2.20
+## alpha[26]       2.81       5.35
+## alpha[27]       1.64       2.69
+## alpha[28]       2.16       3.79
+## alpha[29]       1.44       2.63
+## alpha[30]       1.33       2.09
+## alpha[31]       2.20       4.25
+## alpha[32]       2.44       4.42
+## alpha[33]       1.04       1.07
+## alpha[34]       1.44       2.38
+## alpha[35]       1.04       1.11
+## alpha[36]       1.09       1.26
+## alpha[37]       1.02       1.08
+## alpha[38]       1.59       2.47
+## alpha[39]       1.07       1.15
+## alpha[40]       1.02       1.03
+## alpha[41]       1.15       1.47
+## alpha[42]       1.46       2.29
+## alpha[43]       1.03       1.10
+## alpha[44]       1.09       1.29
+## alpha[45]       1.09       1.27
+## alpha[46]       1.05       1.16
+## alpha[47]       1.02       1.08
+## alpha[48]       1.01       1.04
+## alpha[49]       1.46       2.26
+## alpha[50]       1.35       2.10
+## alpha[51]       1.14       1.42
+## alpha[52]       2.73       6.08
+## alpha[53]       1.12       1.35
+## alpha[54]       1.00       1.01
+## alpha[55]       1.01       1.04
+## alpha[56]       1.19       1.54
+## alpha[57]       1.69       2.70
+## alpha[58]       1.79       3.01
+## alpha[59]       1.03       1.09
+## alpha[60]       1.03       1.09
+## alpha[61]       1.03       1.11
+## alpha[62]       1.22       1.66
+## alpha[63]       1.02       1.06
+## alpha[64]       1.01       1.03
+## alpha[65]       1.05       1.15
+## alpha[66]       1.01       1.03
+## alpha[67]       1.03       1.12
+## alpha[68]       1.08       1.25
+## alpha[69]       1.01       1.01
+## alpha[70]       1.00       1.01
+## alpha[71]       1.00       1.00
+## alpha[72]       1.00       1.00
+## beta[1]         3.75       7.52
+## beta[2]         1.03       1.09
+## beta[3]         1.01       1.05
+## beta[4]         3.61       7.54
+## beta[5]         2.79       5.65
+## sigma           1.00       1.00
+## 
+## Multivariate psrf
+## 
+## 43.4
+```
+
+```r
 ## Save the lambda estimates
 #var.e4
 #var.u4
@@ -799,7 +926,7 @@ rm(coefs, model, samp, model_string, random.basis.1, random.basis.2,
 <br>
 
 #### Figure 7: The group-level mean functions using penalized splines and JAGS.
-<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-34-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -810,7 +937,7 @@ rm(coefs, model, samp, model_string, random.basis.1, random.basis.2,
 \pagebreak
 
 #### Figure 8: A comparison of the fitted effect functions from each model.
-<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+<img src="FunctionalANOVAExample_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -841,17 +968,21 @@ A summary of the R session used for the analysis.
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] rjags_4-8          coda_0.19-2        lme4_1.1-18-1      Matrix_1.2-14      nlme_3.1-137       RColorBrewer_1.1-2 ggplot2_3.1.0     
-## [8] knitr_1.20         MASS_7.3-51       
+## [1] rjags_4-8          coda_0.19-2        lme4_1.1-18-1     
+## [4] Matrix_1.2-15      nlme_3.1-137       RColorBrewer_1.1-2
+## [7] ggplot2_3.1.0      knitr_1.20         MASS_7.3-51.1     
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.19     nloptr_1.2.1     pillar_1.3.0     compiler_3.5.1   plyr_1.8.4       bindr_0.1.1      tools_3.5.1     
-##  [8] digest_0.6.18    evaluate_0.12    tibble_1.4.2     gtable_0.2.0     lattice_0.20-35  pkgconfig_2.0.2  rlang_0.3.0.1   
-## [15] rstudioapi_0.8   yaml_2.2.0       xfun_0.4         bindrcpp_0.2.2   stringr_1.3.1    withr_2.1.2      dplyr_0.7.7     
-## [22] rprojroot_1.3-2  grid_3.5.1       tidyselect_0.2.5 glue_1.3.0       R6_2.3.0         rmarkdown_1.10   minqa_1.2.4     
-## [29] purrr_0.2.5      magrittr_1.5     splines_3.5.1    backports_1.1.2  scales_1.0.0     htmltools_0.3.6  rsconnect_0.8.8 
-## [36] assertthat_0.2.0 colorspace_1.3-2 labeling_0.3     tinytex_0.9      stringi_1.2.4    lazyeval_0.2.1   munsell_0.5.0   
-## [43] crayon_1.3.4
+##  [1] Rcpp_1.0.0       pillar_1.3.0     compiler_3.5.1   nloptr_1.2.1    
+##  [5] plyr_1.8.4       bindr_0.1.1      tools_3.5.1      digest_0.6.18   
+##  [9] evaluate_0.12    tibble_1.4.2     gtable_0.2.0     lattice_0.20-38 
+## [13] pkgconfig_2.0.2  rlang_0.3.0.1    rstudioapi_0.8   yaml_2.2.0      
+## [17] bindrcpp_0.2.2   stringr_1.3.1    withr_2.1.2      dplyr_0.7.7     
+## [21] rprojroot_1.3-2  grid_3.5.1       tidyselect_0.2.5 glue_1.3.0      
+## [25] R6_2.3.0         rmarkdown_1.10   minqa_1.2.4      purrr_0.2.5     
+## [29] magrittr_1.5     backports_1.1.2  htmltools_0.3.6  scales_1.0.0    
+## [33] splines_3.5.1    assertthat_0.2.0 colorspace_1.3-2 labeling_0.3    
+## [37] stringi_1.2.4    lazyeval_0.2.1   munsell_0.5.0    crayon_1.3.4
 ```
 
 
