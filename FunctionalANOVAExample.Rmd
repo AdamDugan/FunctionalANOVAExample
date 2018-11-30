@@ -13,6 +13,17 @@ output:
 
 ```{r, include=FALSE}
 
+## Cache code for faster markdown-ing
+opts_chunk$set(cache = TRUE)
+
+```
+
+
+
+
+
+```{r, include=FALSE}
+
 ###########################
 ## Load/Install Packages ##
 ###########################
