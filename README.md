@@ -1,6 +1,6 @@
 # FunctionalANOVAExample
 
-First, simulate data using the methods proposed by Reiss et al in their paper *Fast Function-on-Scalar Regression with Penalized Basis Expansions*.
+First, we'll simulate data using the methods proposed by Reiss et al in their paper *Fast Function-on-Scalar Regression with Penalized Basis Expansions*.
 
 Then, analyze the data using these four models:
 * A 5th-order linear model with interactions using lm().
