@@ -1,4 +1,4 @@
-# FunctionalANOVAExample
+# FunctionalANOVAExamples
 
 First, we'll simulate data using the methods proposed by Reiss et al in their paper *Fast Function-on-Scalar Regression with Penalized Basis Expansions*.
 
